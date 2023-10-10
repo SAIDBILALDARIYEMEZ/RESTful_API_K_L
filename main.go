@@ -37,6 +37,29 @@ func main() {
 		}
 	})
 
+	// Giriş yapma işlemi için "/login" yolunu dinle (giriş işlevselliğini ekleyin)
+
+	mux.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
+
+		email := r.FormValue("email")
+		pwd := r.FormValue("password")
+
+		if IsEmpty(email) || IsEmpty(pwd) {
+			fmt.Fprintf(w, "There is empty data.")
+			return
+		}
+
+		dbPwd := "1234!*"
+		dbEmail := "saidbilal@gmail.com"
+
+		if email == dbEmail && pwd == dbPwd {
+			fmt.Fprintf(w, "Login succesful.")
+		} else {
+			fmt.Fprintf(w, "Login failed.")
+		}
+	})
+
 	// HTTP sunucusunu 8080 portunda başlat
 
 	http.ListenAndServe(":8080", mux)
@@ -49,3 +72,10 @@ func IsEmpty(data string) bool { // kendisine gelen datayı boşmu dolumu diye k
 		return false
 	}
 }
+
+/*
+
+	for key, value := range r.Form {
+		fmt.Printf("%s = %s\n", key, value)
+	}
+*/
